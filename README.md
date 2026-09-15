@@ -1,5 +1,5 @@
 # GLASS-AI Viewer
-An application to view whole slide images and GLASS-AI classifications.
+An standalone MATLAB application to view whole slide images and GLASS-AI classifications. [Link to latest version of installers on Box.](https://moffitt.box.com/s/8g92lg7bcu9sbnf9xwnqtuwn9dvy4ui6)
 
 Select an input image used for GLASS-AI analysis and/or the GLASS-AI results (i.e, '*_classes.mat' or '*_overall_tumor_grades.mat') and press the `Load image(s)` button. 
 
