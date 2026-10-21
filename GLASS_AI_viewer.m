@@ -35,6 +35,45 @@ classdef GLASS_AI_viewer < matlab.apps.AppBase
     methods (Access = private)
     
       
+        
+        function locateNearbyClassificationFile(app)
+            [~, imageBaseName, ~] = fileparts(app.IMAGE_FILE_NAME);
+            targetFile = imageBaseName + "_classes.mat";
+
+            searchRoots = unique({app.IMAGE_DIR_PATH, fileparts(app.IMAGE_DIR_PATH)});
+            classesFile = "";
+
+            for k = 1:numel(searchRoots)
+                rootDir = searchRoots{k};
+                if isempty(rootDir) || ~isfolder(rootDir)
+                    continue
+                end
+
+                folders = strsplit(genpath(rootDir), pathsep);
+                for j = 1:numel(folders)
+                    if isempty(folders{j})
+                        continue
+                    end
+
+                    candidate = fullfile(folders{j}, targetFile);
+                    if isfile(candidate)
+                        classesFile = candidate;
+                        break
+                    end
+                end
+
+                if classesFile ~= ""
+                    break
+                end
+            end
+
+            if classesFile == ""
+                warning("No matching %s found near the selected image.", targetFile);
+            else
+                [app.CLASS_DIR_PATH, app.CLASS_FILE_NAME] = fileparts(classesFile);   % or store it wherever your app expects
+                app.ClassFileNameField.Value = app.CLASS_FILE_NAME;
+            end
+        end
     end
 
     % Callbacks that handle component events
@@ -63,6 +102,8 @@ classdef GLASS_AI_viewer < matlab.apps.AppBase
                 app.IMAGE_FILE_NAME = image_file_name;
                 app.SELECTED_DIR_PATH = image_dir_path;
                 app.ImageFileNameField.Value = image_file_name;
+
+                locateNearbyClassificationFile(app)
             end
         end
 

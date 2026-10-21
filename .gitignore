@@ -3,3 +3,8 @@
 /resources
 *.prj
 Sidebar image.png
+/release
+buildfile.m
+deploymentScript.m
+buildfile.m
+buildfile.m
